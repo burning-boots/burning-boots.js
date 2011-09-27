@@ -223,43 +223,43 @@
 				{
 					/**	No logging
 					 *	@private
-					 *	@since Version 0.1.1
+					 *	@since Version 0.1.0
 					 */
 					NONE:		0,
 
 					/**	An error
 					 *	@private
-					 *	@since Version 0.1.1
+					 *	@since Version 0.1.0
 					 */
 					ERROR:		1,
 
 					/**	A warning
 					 *	@private
-					 *	@since Version 0.1.1
+					 *	@since Version 0.1.0
 					 */
 					WARN:		2,
 
 					/**	An informative message
 					 *	@private
-					 *	@since Version 0.1.1
+					 *	@since Version 0.1.0
 					 */
 					INFO:		3,
 
 					/**	A debugging message
 					 *	@private
-					 *	@since Version 0.1.1
+					 *	@since Version 0.1.0
 					 */
 					DEBUG:		4,
 
 					/**	A verbose message
 					 *	@private
-					 *	@since Version 0.1.1
+					 *	@since Version 0.1.0
 					 */
 					VERBOSE:	5,
 
 					/**	The number of logging levels
 					 *	@private
-					 *	@since Version 0.1.1
+					 *	@since Version 0.1.0
 					 */
 					NUM:		6,
 
