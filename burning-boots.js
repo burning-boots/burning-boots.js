@@ -748,7 +748,7 @@
 					 *	@since Version 0.1.0
 					 */
 					error: function (string) {
-						bb.methods.error(string);
+						bb.methods.log.error(string);
 					},
 
 					/**	Logs an warning message
@@ -757,7 +757,7 @@
 					 *	@since Version 0.1.0
 					 */
 					warn: function (string) {
-						bb.methods.warn(string);
+						bb.methods.log.warn(string);
 					},
 
 					/**	Logs an information message
@@ -766,7 +766,7 @@
 					 *	@since Version 0.1.0
 					 */
 					info: function (string) {
-						bb.methods.info(string);
+						bb.methods.log.info(string);
 					},
 
 					/**	Logs an debugging message
