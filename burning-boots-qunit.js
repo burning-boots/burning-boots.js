@@ -13,38 +13,59 @@
 	indent:		4,
  */
 
+/*global
+	test,
+	asyncTest,
+	expect,
+	module,
+	Qunit,
+	ok,
+	equal,
+	notEqual,
+	deepEqual,
+	notDeepEqual,
+	strictEqual,
+	notStrictEqual,
+	raises,
+	start,
+	stop,
+	bb
+ */
+
 module('Burning Boots Library');
 
 test('Environment', function () {
+	'use strict';
 	expect(2);
 	ok(!!window.$, "jQuery Library is present");
 	ok(!!window.bb, "Burning Boots Library is present");
 });
 
 test('Logging', function () {
+	'use strict';
 	expect(11);
 
 	// Make sure we can get the logging level
-	equals(2, bb.log.level, 'Default logging level is correctly set to show warnings');
+	equal(2, bb.log.level, 'Default logging level is correctly set to show warnings');
 
 	// Increase the logging level
 	var logLevel	= bb.log.level;
 	bb.log.resetLevel();
-	equals(logLevel, bb.log.level, 'Reset logging level');
+	equal(logLevel, bb.log.level, 'Reset logging level');
 
 	// Increase the logging level
 	logLevel	= bb.log.level;
 	bb.log.increaseLevel();
-	equals(logLevel + 1, bb.log.level, 'Increased logging level');
+	equal(logLevel + 1, bb.log.level, 'Increased logging level');
 
 	// Decrease the logging level
 	logLevel	= bb.log.level;
 	bb.log.decreaseLevel();
-	equals(logLevel - 1, bb.log.level, 'Decreased logging level');
+	equal(logLevel - 1, bb.log.level, 'Decreased logging level');
 
 	// Clear the logging level
 	bb.log.clearLevel();
-	equals(0, bb.log.level, 'Cleared logging level');
+	equal(0, bb.log.level, 'Cleared logging level');
 
 	// These should never throw exceptions
 	ok(!bb.log.printLevel(), 'Printed the level');
