@@ -717,7 +717,7 @@
 	 *	@exports window.bb as bb 
 	 *	@version 0.1.0
 	 */
-	window.bb =
+	window.bb = window.burning-boots =
 		{
 			/**	The Burning Boots logging provides methods to output necessary
 			 *	logging messages.
