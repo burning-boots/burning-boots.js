@@ -328,7 +328,6 @@
 			/**	This initialises our namespace, doing various
 			 *	things so that the bb library can be used effectively
 			 *	in the user agent.
-			 *	@throws		{bb.exceptions}	A Burning Boots exception
 			 *	@private
 			 *	@since Version 0.1.0
 			 */
