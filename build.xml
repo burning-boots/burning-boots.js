@@ -12,8 +12,34 @@ The build process for the Burning Boots Javascript library.
 	<!-- Store this base dir -->
 	<dirname property="burning-boots-js-lib.basedir" file="${ant.file.burning-boots-js-lib}"/>
 
+	<!-- load shell environment -->
+	<property environment="env"/>
+
+	<!-- Pull in the tool properties from the tools directory -->
+	<property name="bb.tools.dir" value="${env.BURNING_BOOTS_TOOLS_DIR}"/>
+	<fail message="bb.tools.dir was set to '${bb.tools.dir}', 'tools.xml' could not be found. You must set the to the Burning Boots tools directory either by overriding 'bb.tools.dir' or exporting 'BURNING_BOOT_TOOLS_DIR' in your environment.">
+		<condition>
+			<not>
+				<available file="${bb.tools.dir}/tools.xml"/>
+			</not>
+		</condition>
+	</fail>
+	<import file="${bb.tools.dir}/tools.xml"/>
+
+	<!-- Load in Ant-Contrib to give us access to some very useful tasks! -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${bb.tools.apache.ant.ant-contrib.jar}"/>
+		</classpath>
+	</taskdef>
+
 	<!-- Get the library version -->
-	<property name="burning-boots-js-lib-build.lib-version" value="0.3.0"/>
+	<loadfile property="burning-boots-js-lib-build.lib-version" srcfile="burning-boots.js"/>
+	<propertyregex property="burning-boots-js-lib-build.lib-version"
+		override="true"
+		input="${burning-boots-js-lib-build.lib-version}"
+		regexp="version:[ \t]\[([0-9]),([0-9]),([0-9])\]"
+		select="\1.\2.\3" />
 
 	<!-- Set some default properties that can be overriden -->
 	<property name="dir.build" value="build"/>
