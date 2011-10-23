@@ -286,6 +286,37 @@
 			 */
 			logLevel: bb.enums.logLevel.WARN,
 
+			/**	The current site we are on
+			 *	@name		level
+			 *	@fieldOf	bb.log
+			 *	@public
+			 *	@since Version 0.2.0
+			 */
+			get site() {
+				try {
+					/*	Get the bit of the URL between the // and first / then split
+					 *	it on the .'s
+					 */
+					var array			= document.URL.match(/\/\/[^/]+\//)[0].match(/[^/]+/)[0].split('.');
+					var i				= 0;
+					var returnString	= '';
+
+					// Assume(!) that the longest split is the site name.  amazon for www.amazon.com
+					for (i = 0; i < array.length; i++) {
+						if (array[i].length > returnString.length) {
+							returnString = array[i];
+						}
+					}
+					return returnString;
+				} catch (exception) {
+					return 'generic';
+				}
+			},
+			set site(value) {
+				var typeError = new TypeError('Cannot set bb.members.site (' + value.toString + ')');
+				throw typeError;
+			},
+
 			/**	The dynamic CSS of the page
 			 *	@private
 			 *	@since Version 0.1.0
@@ -300,7 +331,7 @@
 					 */
 					get presentation() {
 						try {
-							return localStorage.getItem('burning-boots.css.presentation');
+							return localStorage[bb.members.site + '.css.presentation'];
 						} catch (exception) {
 							bb.methods.log.error('Failed to get CSS presentation from local storage.  Do you need to install a localStorage polyfill: ' + exception);
 						}
@@ -311,7 +342,7 @@
 							throw bb.exceptions.INVALID_PARAMS;
 						}
 						try {
-							return localStorage.setItem('burning-boots.css.presentation', value);
+							return localStorage.setItem[bb.members.site + '.css.presentation'] = value;
 						} catch (exception) {
 							bb.methods.log.error('Failed to set CSS layout in local storage.  Do you need to install a localStorage polyfill: ' + exception);
 						}
@@ -325,9 +356,9 @@
 					 */
 					get layout() {
 						try {
-							return localStorage.getItem('burning-boots.css.layout');
+							return localStorage[bb.members.site + '.css.layout'];
 						} catch (exception) {
-							bb.methods.log.error('Failed to get CSS layout from local storage.  Install a localStorage polyfill: ' + exception);
+							bb.methods.log.error('Failed to get CSS layout from local storage.  o you need to install a localStorage polyfill: ' + exception);
 						}
 					},
 					set layout(value) {
@@ -336,7 +367,7 @@
 							throw bb.exceptions.INVALID_PARAMS;
 						}
 						try {
-							return localStorage.setItem('burning-boots.css.layout', value);
+							return localStorage[bb.members.site + '.css.layout'] = value;
 						} catch (exception) {
 							bb.methods.log.error('Failed to set CSS layout in local storage.  Do you need to install a localStorage polyfill: ' + exception);
 						}
@@ -614,7 +645,9 @@
 								classString = bb.members.css.layout;
 							}
 							$(document.documentElement).addClass(classString);
-							bb.members.css.layout = classString;
+							if (classString) {
+								bb.members.css.layout = classString;
+							}
 						} catch (exception) {
 							bb.methods.log.error('Failed to set the CSS layout: ' + exception);
 						}
@@ -646,7 +679,9 @@
 								$(document.documentElement).removeClass(bb.members.css.presentation);
 							}
 							$(document.documentElement).addClass(classString);
-							bb.members.css.presentation = classString;
+							if (classString) {
+								bb.members.css.presentation = classString;
+							}
 						} catch (exception) {
 							bb.methods.log.error('Failed to set the CSS presentation colours: ' + exception);
 						}
@@ -847,7 +882,7 @@
 	 *	that can be useful for development.
 	 *	@namespace	A Burning Boots Javascript Library
 	 *	@exports window.bb as bb 
-	 *	@version 0.1.0
+	 *	@version 0.2.0
 	 */
 	window.bb =
 		{
