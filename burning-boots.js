@@ -882,7 +882,7 @@
 	 *	that can be useful for development.
 	 *	@namespace	A Burning Boots Javascript Library
 	 *	@exports window.bb as bb 
-	 *	@version 0.2.1
+	 *	@version 0.3.0
 	 */
 	window.bb =
 		{
@@ -891,7 +891,7 @@
 			 *	@public
 			 *	@since Version 0.1.0
 			 */
-			version: [0,2,1],
+			version: [0,3,0],
 
 			/**	The Burning Boots key bindings provides methods
 			 *	to bind key combinations to elements on a page.
