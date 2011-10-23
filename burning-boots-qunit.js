@@ -44,6 +44,23 @@ test('Environment', function () {
 	ok(!!window.bb, "Burning Boots Library is present");
 });
 
+test('CSS', function () {
+	'use strict';
+	expect(4);
+
+	// Test the layout
+	bb.css.layout('qunit-test');
+	ok($(document.documentElement).hasClass('layout-qunit-test'), 'Correctly added the layout class');
+	bb.css.layout('qunit-retest');
+	ok(!$(document.documentElement).hasClass('layout-qunit-test') && $(document.documentElement).hasClass('layout-qunit-retest'), 'Correctly removed and added the layout class');
+
+	// Test the presentation
+	bb.css.presentation('qunit-test');
+	ok($(document.documentElement).hasClass('presentation-qunit-test'), 'Correctly added the presentation class');
+	bb.css.presentation('qunit-retest');
+	ok(!$(document.documentElement).hasClass('presentation-qunit-test') && $(document.documentElement).hasClass('presentation-qunit-retest'), 'Correctly removed and added the presentation class');
+});
+
 test('Key Binding', function () {
 	'use strict';
 	expect(6);
@@ -86,10 +103,18 @@ test('Key Binding', function () {
 
 test('Logging', function () {
 	'use strict';
-	expect(15);
+	expect(16);
 
 	// Make sure we can get the logging level
 	equal(2, bb.log.level, 'Default logging level is correctly set to show warnings');
+
+	// You shouldn't ever be able to directly set the logging level
+	try {
+		bb.log.level = 5;
+		ok(false, 'Setting the logging level directly did not throw an exception');
+	} catch (exception) {
+		ok(true, 'Setting the logging level directly correctly threw an exception');
+	}
 
 	// Increase the logging level
 	var logLevel	= bb.log.level;

@@ -284,7 +284,60 @@
 			 *	@private
 			 *	@since Version 0.1.0
 			 */
-			logLevel: bb.enums.logLevel.WARN
+			logLevel: bb.enums.logLevel.WARN,
+
+			/**	The dynamic CSS of the page
+			 *	@private
+			 *	@since Version 0.1.0
+			 */
+			css:
+				{
+					/**	The dynamic CSS presentation colours of the page
+					 *	@private
+					 *	@since Version 0.1.0
+					 */
+					get presentation() {
+						try {
+							return localStorage.getItem('burning-boots.css.presentation');
+						} catch (exception) {
+							bb.methods.log.error('Failed to get CSS presentation from local storage.  Do you need to install a localStorage polyfill: ' + exception);
+						}
+					},
+					set presentation(value) {
+						if ('string' !== typeof (value)) {
+							bb.methods.log.error('Invalid value for bb.members.css.presentation');
+							throw bb.exceptions.INVALID_PARAMS;
+						}
+						try {
+							return localStorage.setItem('burning-boots.css.presentation', value);
+						} catch (exception) {
+							bb.methods.log.error('Failed to set CSS layout in local storage.  Do you need to install a localStorage polyfill: ' + exception);
+						}
+					},
+
+					/**	The dynamic CSS layout of the page
+					 *	@private
+					 *	@since Version 0.1.0
+					 */
+					get layout() {
+						try {
+							return localStorage.getItem('burning-boots.css.layout');
+						} catch (exception) {
+							bb.methods.log.error('Failed to get CSS layout from local storage.  Install a localStorage polyfill: ' + exception);
+						}
+					},
+					set layout(value) {
+						if ('string' !== typeof (value)) {
+							bb.methods.log.error('Invalid value for bb.members.css.layout');
+							throw bb.exceptions.INVALID_PARAMS;
+						}
+						try {
+							return localStorage.setItem('burning-boots.css.layout', value);
+						} catch (exception) {
+							bb.methods.log.error('Failed to set CSS layout in local storage.  Do you need to install a localStorage polyfill: ' + exception);
+						}
+					}
+				}
 		};
 
 	/**	Private elements that can be added to the page dynamically
@@ -347,6 +400,10 @@
 					bb.methods.keyBinding.add(document, 'CTRL+ALT+W', bb.methods.log.decreaseLevel);
 					bb.methods.keyBinding.add(document, 'CTRL+ALT+A', bb.methods.log.resetLevel);
 					bb.methods.keyBinding.add(document, 'CTRL+ALT+S', bb.methods.log.clearLevel);
+
+					// Set the default CSS
+					bb.methods.css.presentation();
+					bb.methods.css.layout();
 				} catch (exception) {
 					bb.methods.log.error('Burning Boots Library Initialisation...FAILED: ' + exception);
 					return;
@@ -518,6 +575,76 @@
 						} catch (exception) {
 							bb.methods.log.error('Failed to remove key binding', exception);
 							throw exception;
+						}
+					}
+				},
+
+			/**	The Burning Boots CSS provides methods to modify the CSS of a 
+			 *	page dynamically.
+			 *	@namespace	Dynamic CSS class methods.
+			 *	@private
+			 *	@since Version 0.1.0
+			 */
+			css:
+				{
+					/**	Sets the CSS layout of the page
+					 *	@param	{classString}	string	The CSS class to set.  Can
+					 *									be undefined to set the
+					 *									CSS class from local storage.
+					 *	@public
+					 *	@since Version 0.1.0
+					 */
+					layout: function (classString) {
+						// Check we have the correct parameters
+						if (!(('string' === typeof (classString)) || (!classString))) {
+							bb.methods.log.error('Invalid parameters to bb.methods.css.layout');
+							throw bb.exceptions.INVALID_PARAMS;
+						}
+						try {
+							if (classString) {
+								classString = 'layout-' + classString;
+								if (bb.members.css.layout) {
+									$(document.documentElement).removeClass(bb.members.css.layout);
+								}
+							} else {
+								classString = bb.members.css.layout;
+							}
+							$(document.documentElement).addClass(classString);
+							bb.members.css.layout = classString;
+						} catch (exception) {
+							bb.methods.log.error('Failed to set the CSS layout: ' + exception);
+						}
+					},
+
+					/**	Sets the CSS presentation colours of the page
+					 *	@param	{classString}	string	The CSS class to set.  Can
+					 *									be undefined to set the
+					 *									CSS class from local storage.
+					 *	@public
+					 *	@since Version 0.1.0
+					 */
+					presentation: function (classString) {
+						// Check we have the correct parameters
+						if (!(('string' === typeof (classString)) || (!classString))) {
+							bb.methods.log.error('Invalid parameters to bb.methods.css.presentation');
+							throw bb.exceptions.INVALID_PARAMS;
+						}
+						try {
+							if (classString) {
+								classString = 'presentation-' + classString;
+								if (bb.members.css.presentation) {
+									$(document.documentElement).removeClass(bb.members.css.presentation);
+								}
+							} else {
+								classString = bb.members.css.presentation;
+							}
+							if (bb.members.css.presentation) {
+								$(document.documentElement).removeClass(bb.members.css.presentation);
+							}
+							$(document.documentElement).addClass(classString);
+							bb.members.css.presentation = classString;
+						} catch (exception) {
+							bb.methods.log.error('Failed to set the CSS presentation colours: ' + exception);
 						}
 					}
 				},
@@ -761,6 +888,41 @@
 					}
 				},
 
+			/**	The Burning Boots CSS provides methods to modify the CSS of a 
+			 *	page dynamically.
+			 *	@namespace	Dynamic CSS class methods.
+			 *	@public
+			 *	@since Version 0.1.0
+			 */
+			css:
+				{
+					/**	Sets the CSS layout of the page
+					 *	@param	{classString}	string	The CSS class to set.
+					 *	@public
+					 *	@since Version 0.1.0
+					 */
+					layout: function (classString) {
+						try {
+							bb.methods.css.layout(classString);
+						} catch (exception) {
+							bb.methods.log.error('Failed to set the CSS layout: ' + exception);
+						}
+					},
+
+					/**	Sets the CSS presentation colours of the page
+					 *	@param	{classString}	string	The CSS class to set.
+					 *	@public
+					 *	@since Version 0.1.0
+					 */
+					presentation: function (classString) {
+						try {
+							bb.methods.css.presentation(classString);
+						} catch (exception) {
+							bb.methods.log.error('Failed to set the CSS presentation colours: ' + exception);
+						}
+					}
+				},
+
 			/**	The Burning Boots logging provides methods to output necessary
 			 *	logging messages.
 			 *	<br/><br/>
@@ -782,6 +944,10 @@
 					 */
 					get level() {
 						return bb.members.logLevel;
+					},
+					set level(value) {
+						var typeError = new TypeError('Cannot set bb.log.level (' + value.toString + ')');
+						throw typeError;
 					},
 
 					/**	Logs an error message
