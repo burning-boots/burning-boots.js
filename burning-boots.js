@@ -293,6 +293,8 @@
 			css:
 				{
 					/**	The dynamic CSS presentation colours of the page
+					 *	@name		presentation
+					 *	@fieldOf	bb.members.css
 					 *	@private
 					 *	@since Version 0.1.0
 					 */
@@ -316,6 +318,8 @@
 					},
 
 					/**	The dynamic CSS layout of the page
+					 *	@name		layout
+					 *	@fieldOf	bb.members.css
 					 *	@private
 					 *	@since Version 0.1.0
 					 */
@@ -852,7 +856,7 @@
 			 *	@public
 			 *	@since Version 0.1.0
 			 */
-			version: [0,1,1],
+			version: [0,2,0],
 
 			/**	The Burning Boots key bindings provides methods
 			 *	to bind key combinations to elements on a page.
@@ -945,7 +949,9 @@
 			 */
 			log:
 				{
-					/**	Gets the current logging level
+					/**	The current logging level
+					 *	@name		level
+					 *	@fieldOf	bb.log
 					 *	@public
 					 *	@since Version 0.1.0
 					 */

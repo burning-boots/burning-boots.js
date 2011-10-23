@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+
+<!--       Burning Boots        -->
+<!-- Please use a tab size of 2 -->
+
+<!DOCTYPE project>
+<project name="burning-boots-js-lib" default="all" basedir=".">
+	<description>
+The build process for the Burning Boots Javascript library.
+	</description>
+
+	<!-- Store this base dir -->
+	<dirname property="burning-boots-js-lib.basedir" file="${ant.file.burning-boots-js-lib}"/>
+
+	<!-- Set some default properties that can be overriden -->
+	<property name="dir.build" value="build"/>
+
+	<!-- Import the Javascript library build -->
+	<import file="${dir.build}/build.xml"/>
+</project>
