@@ -852,7 +852,7 @@
 			 *	@public
 			 *	@since Version 0.1.0
 			 */
-			version: [0,1,0],
+			version: [0,1,1],
 
 			/**	The Burning Boots key bindings provides methods
 			 *	to bind key combinations to elements on a page.
