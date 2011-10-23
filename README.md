@@ -5,9 +5,10 @@ A [Burning Boots](http://www.burningboots.co.uk) Javascript library that has som
 
 Releases
 --------
-1. Install [GIT Extras](https://github.com/visionmedia/git-extras) and run `git changelog` to update `History.md`.
-2. Clean up the file and add the version where it says `n.n.n`
-3. Commit and tag.  Tags should have a preceding `v`, for example `v1.4.56`
-4. Update `bb.version` in `burning-boots.js` to the next version
-5. Commit again
-6. Push
+1. Install [GIT Extras](https://github.com/visionmedia/git-extras).
+2. Run `ant release`.  This will commit the history and tag the commit.
+3. Update `bb.version` in `burning-boots.js` to the next version
+4. Commit again
+5. Check everything is OK. `git tag -n` and `git log`
+6. `git push`
+7. `git push --tags`
