@@ -9,6 +9,8 @@
  */
 
 /*jslint
+	browser:	true,
+	vars:		true,
 	maxerr:		50,
 	indent:		4,
  */
@@ -29,7 +31,8 @@
 	raises,
 	start,
 	stop,
-	bb
+	bb,
+	$
  */
 
 module('Burning Boots Library');
@@ -41,9 +44,49 @@ test('Environment', function () {
 	ok(!!window.bb, "Burning Boots Library is present");
 });
 
+test('Key Binding', function () {
+	'use strict';
+	expect(6);
+
+	// Create a DOM element to attach some key presses to it.
+	var div = document.createElement('div');
+
+	// Add some key bindings
+	bb.keyBinding.add(document, 'CTRL+ALT+M', function () {ok(true, "Document registered CTRL+ALT+M."); });
+	bb.keyBinding.add(document, 'CTRL+ALT+M', function () {ok(true, "Document registered CTRL+ALT+M."); });
+	bb.keyBinding.add(document, 'CTRL+ALT+Z', function () {ok(true, "Document registered CTRL+ALT+Z."); });
+	bb.keyBinding.add(div, 'CTRL+ALT+P', function () {ok(true, "The div registered CTRL+ALT+P."); });
+	bb.keyBinding.add(div, 'CTRL+ALT+Z', function () {ok(true, "The div registered CTRL+ALT+Z."); });
+
+	// Trigger the key presses
+	var event	= $.Event('keydown');
+	event.ctrlKey	= true;
+	event.altKey	= true;
+	event.which	= 77; // M
+	$(document).trigger(event);
+	event.which	= 90; // Z
+	$(document).trigger(event);
+	$(document).trigger(event);
+	$(div).trigger(event); // This will bubble up
+	event.which	= 80; // P
+	$(div).trigger(event);
+
+	// Remove the key bindings
+	bb.keyBinding.remove(document, 'CTRL+ALT+M');
+	bb.keyBinding.remove(document, 'CTRL+ALT+Z');
+	bb.keyBinding.remove(div, 'CTRL+ALT+Z');
+	bb.keyBinding.remove(div, 'CTRL+ALT+P');
+
+	// Make sure a key press doesn't register a QUnit result.
+	$(document).trigger(event);
+
+	// Remove the div
+	div = null;
+});
+
 test('Logging', function () {
 	'use strict';
-	expect(11);
+	expect(15);
 
 	// Make sure we can get the logging level
 	equal(2, bb.log.level, 'Default logging level is correctly set to show warnings');
@@ -74,4 +117,28 @@ test('Logging', function () {
 	ok(!bb.log.info('QUnit'), 'Information was logged');
 	ok(!bb.log.debug('QUnit'), 'Debugging was logged');
 	ok(!bb.log.verbose('QUnit'), 'A verbose message was logged');
+
+	/* Test the logging key bindings
+	 * CTRL+ALT+Q	- Increases logging level
+	 * CTRL+ALT+W	- Decreases logging level
+	 * CTRL+ALT+A	- Resets logging level
+	 * CTRL+ALT+S	- Clears the logging level
+	 */
+	var event	= $.Event('keydown');
+	event.ctrlKey	= true;
+	event.altKey	= true;
+	event.which	= 83; // S
+	$(document).trigger(event);
+	equal(0, bb.log.level, 'Cleared logging level with CTRL+ALT+S');
+	event.which	= 65; // A
+	$(document).trigger(event);
+	equal(2, bb.log.level, 'Reset the logging level with CTRL+ALT+A');
+	event.which	= 81; // Q
+	logLevel	= bb.log.level;
+	$(document).trigger(event);
+	equal(logLevel + 1, bb.log.level, 'Increased the logging level with CTRL+ALT+Q');
+	event.which	= 87; // W
+	logLevel	= bb.log.level;
+	$(document).trigger(event);
+	equal(logLevel - 1, bb.log.level, 'Cleared logging level with CTRL+ALT+W');
 });

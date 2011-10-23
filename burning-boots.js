@@ -342,10 +342,7 @@
 						Object.freeze(bb.exceptions);
 					}
 
-					// Add our event listeners
-					$(document).keydown(bb.eventCallback.keyPress);
-
-					// Add our keyEvents
+					// Add our key bindings
 					bb.methods.keyBinding.add(document, 'CTRL+ALT+Q', bb.methods.log.increaseLevel);
 					bb.methods.keyBinding.add(document, 'CTRL+ALT+W', bb.methods.log.decreaseLevel);
 					bb.methods.keyBinding.add(document, 'CTRL+ALT+A', bb.methods.log.resetLevel);
@@ -388,8 +385,8 @@
 								keyCombo += event.altKey   ? 'ALT+'   : '';
 								keyCombo += event.shiftKey ? 'SHIFT+' : '';
 								keyCombo += bb.defines.keyMap[key];
-								if ((object.keyBindings) && (object.keyBindings[keyCombo])) {
-									object.keyBindings[keyCombo].callback();
+								if ((object.keyBinding) && (object.keyBinding[keyCombo])) {
+									object.keyBinding[keyCombo].callback();
 								}
 							}
 						} catch (exception) {
@@ -400,10 +397,10 @@
 
 					/**	Sorts a key binding string so that the meta
 					 *	meta keys are first.  This is so that when we
-					 *	do a lookup for the callback function in bb.members.keyBindings
+					 *	do a lookup for the callback function in bb.members.keyBinding
 					 *	we can find the correct one.
 					 *	@param		{String}	keyCombo	A key binding in the form CTRL+ALT+A
-					 *	@returns	{String}	A sorted string ready to be added to the bb.members.keyBindings
+					 *	@returns	{String}	A sorted string ready to be added to the bb.members.keyBinding
 					 *	@throws		{bb.exceptions}	A Burning Boots exception
 					 *	@private
 					 *	@since Version 0.1.0
@@ -447,6 +444,7 @@
 					},
 
 					/**	Adds a key binding to a callback function.
+					 *	@param		{Object}	object		The object to bind to.
 					 *	@param		{String}	keyCombo	A key binding in the form CTRL+ALT+A
 					 *	@param		{Function}	callback	The callback function to run when
 					 *										the key binding is pressed
@@ -470,14 +468,17 @@
 							bb.methods.log.verbose('Adding keybinding for ' + keyCombo);
 
 							// Create a key binding on the object
-							if (!object.keyBindings) {
-								object.keyBindings = {};
+							if (!object.keyBinding) {
+								object.keyBinding = {};
 							}
 
 							// Add the key binding to the list
-							object.keyBindings[keyCombo] = {
+							object.keyBinding[keyCombo] = {
 								callback: callback
 							};
+
+							// Make sure that there is only one key press callback assigned
+							$(object).unbind('keydown.bb').bind('keydown.bb', bb.eventCallback.keyPress);
 						} catch (exception) {
 							bb.methods.log.error('Failed to add key binding: ' + exception);
 							throw exception;
@@ -485,6 +486,7 @@
 					},
 
 					/**	Removes a key binding.
+					 *	@param		{Object}	object		The object to remove the binding from.
 					 *	@param		{String}	keyCombo	A key binding in the form CTRL+ALT+A
 					 *	@throws		{bb.exceptions}	A Burning Boots exception
 					 *	@example	status = bb.methods.keyBinding.remove('CTRL+ALT+Q');
@@ -508,8 +510,8 @@
 							bb.methods.log.verbose('Removing keybinding ' + keyCombo);
 
 							// Remove the key binding from the list
-							if ((object.keyBindings) && (object.keyBindings[keyCombo])) {
-								delete object.keyBindings[keyCombo];
+							if ((object.keyBinding) && (object.keyBinding[keyCombo])) {
+								delete object.keyBinding[keyCombo];
 							} else {
 								bb.methods.log.warn('There is no key binding for ' + keyCombo + ' to remove.');
 							}
@@ -718,6 +720,47 @@
 	 */
 	window.bb =
 		{
+			/**	The Burning Boots key bindings provides methods
+			 *	to bind key combinations to elements on a page.
+			 *	@namespace	DOM element key binding methods.
+			 *	@public
+			 *	@since Version 0.1.0
+			 */
+			keyBinding:
+				{
+					/**	Adds a key binding to an element
+					 *	@param		{Object}	object		The object to bind to.
+					 *	@param		{String}	keyCombo	A key binding in the form CTRL+ALT+A
+					 *	@param		{Function}	callback	The callback function to run when
+					 *										the key binding is pressed
+					 *	@example	status = bb.methods.keyBinding.add(element, 'CTRL+ALT+Z', function(){alert('Hello');});
+					 *	@public
+					 *	@since Version 0.1.0
+					 */
+					add: function (object, keyCombo, callback) {
+						try {
+							bb.methods.keyBinding.add(object, keyCombo, callback);
+						} catch (exception) {
+							bb.methods.log.error('Failed to add key binding "' + keyCombo + '": ' + exception);
+						}
+					},
+
+					/**	Removes a key binding to an element
+					 *	@param		{Object}	object		The object to remove the binding from.
+					 *	@param		{String}	keyCombo	A key binding in the form CTRL+ALT+A
+					 *	@example	status = bb.methods.keyBinding.remove(element, 'CTRL+ALT+Z');
+					 *	@public
+					 *	@since Version 0.1.0
+					 */
+					remove: function (object, keyCombo) {
+						try {
+							bb.methods.keyBinding.remove(object, keyCombo);
+						} catch (exception) {
+							bb.methods.log.error('Failed to remove key binding "' + keyCombo + '": ' + exception);
+						}
+					}
+				},
+
 			/**	The Burning Boots logging provides methods to output necessary
 			 *	logging messages.
 			 *	<br/><br/>
