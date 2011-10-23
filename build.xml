@@ -12,6 +12,9 @@ The build process for the Burning Boots Javascript library.
 	<!-- Store this base dir -->
 	<dirname property="burning-boots-js-lib.basedir" file="${ant.file.burning-boots-js-lib}"/>
 
+	<!-- Get the library version -->
+	<property name="burning-boots-js-lib-build.lib-version" value="0.2.0"/>
+
 	<!-- Set some default properties that can be overriden -->
 	<property name="dir.build" value="build"/>
 
