@@ -342,7 +342,7 @@
 							throw bb.exceptions.INVALID_PARAMS;
 						}
 						try {
-							return localStorage.setItem[bb.members.site + '.css.presentation'] = value;
+							return localStorage[bb.members.site + '.css.presentation'] = value;
 						} catch (exception) {
 							bb.methods.log.error('Failed to set CSS layout in local storage.  Do you need to install a localStorage polyfill: ' + exception);
 						}
@@ -882,7 +882,7 @@
 	 *	that can be useful for development.
 	 *	@namespace	A Burning Boots Javascript Library
 	 *	@exports window.bb as bb 
-	 *	@version 0.3.0
+	 *	@version 0.2.1
 	 */
 	window.bb =
 		{
@@ -891,7 +891,7 @@
 			 *	@public
 			 *	@since Version 0.1.0
 			 */
-			version: [0,3,0],
+			version: [0,2,1],
 
 			/**	The Burning Boots key bindings provides methods
 			 *	to bind key combinations to elements on a page.
