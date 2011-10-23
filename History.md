@@ -1,3 +1,4 @@
+
 v0.1.0 / 2011-10-23 
 ==================
   * Added the library version under bb.version with an overloaded toString method.
