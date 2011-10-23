@@ -847,6 +847,13 @@
 	 */
 	window.bb =
 		{
+			/**	The Burning Boots library version.
+			 *	@namespace	Versioning information.
+			 *	@public
+			 *	@since Version 0.1.0
+			 */
+			version: [0,1,0],
+
 			/**	The Burning Boots key bindings provides methods
 			 *	to bind key combinations to elements on a page.
 			 *	@namespace	DOM element key binding methods.
@@ -1059,5 +1066,10 @@
 						}
 					}
 				}
+		};
+
+		// Override the version toString method.
+		window.bb.version.__proto__.toString = function() {
+			return this.join('.');
 		};
 }(window));
