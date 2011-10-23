@@ -1,4 +1,14 @@
 
+v0.2.0 / 2011-10-23 
+==================
+
+  * Updated build and cleaned up History.md
+  * Added a site key for cross-site local storage
+  * Updated the build
+  * Added the Javascript build process
+  * Cleaned up History.md and README.md
+  * Updated version to 0.2.0
+
 v0.1.0 / 2011-10-23 
 ==================
   * Added the library version under bb.version with an overloaded toString method.
