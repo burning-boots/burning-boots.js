@@ -50,20 +50,20 @@ test('CSS', function () {
 	expect(6);
 
 	// Cache the local storage
-	var presentation	= localStorage.getItem('css.presentation'),
-		layout			= localStorage.getItem('css.layout');
+	var presentation	= bb.css.presentation,
+		layout			= bb.css.layout;
 
 	// Test the layout
-	bb.css.layout('qunit-test');
+	bb.css.layout = 'qunit-test';
 	ok($(document.documentElement).hasClass('layout-qunit-test'), 'Correctly added the layout class');
-	bb.css.layout('qunit-retest');
+	bb.css.layout = 'qunit-retest';
 	ok(!$(document.documentElement).hasClass('layout-qunit-test') && $(document.documentElement).hasClass('layout-qunit-retest'), 'Correctly removed and added the layout class');
 	ok(localStorage.getItem('css.layout') === 'qunit-retest', 'Correctly stored in layout local storage');
 
 	// Test the presentation
-	bb.css.presentation('qunit-test');
+	bb.css.presentation = 'qunit-test';
 	ok($(document.documentElement).hasClass('presentation-qunit-test'), 'Correctly added the presentation class');
-	bb.css.presentation('qunit-retest');
+	bb.css.presentation = 'qunit-retest';
 	ok(!$(document.documentElement).hasClass('presentation-qunit-test') && $(document.documentElement).hasClass('presentation-qunit-retest'), 'Correctly removed and added the presentation class');
 	ok(localStorage.getItem('css.presentation') === 'qunit-retest', 'Correctly stored presentation in local storage');
 

@@ -912,27 +912,43 @@
 			 */
 			css:
 				{
-					/**	Sets the CSS layout of the page
-					 *	@param	{classString}	string	The CSS class to set.
+					/**	Sets or gets the CSS class of the layout
+					 *	@name		layout
+					 *	@fieldOf	bb.css
 					 *	@public
-					 *	@since Version 0.1.0
+					 *	@since Version 0.3.0
 					 */
-					layout: function (classString) {
+					get layout () {
 						try {
-							bb.methods.css.layout(classString);
+							return bb.members.css.layout;
+						} catch (exception) {
+							bb.methods.log.error('Failed to get the CSS presentation colours: ' + exception);
+						}
+					},
+					set layout (value) {
+						try {
+							bb.methods.css.layout(value);
 						} catch (exception) {
 							bb.methods.log.error('Failed to set the CSS layout: ' + exception);
 						}
 					},
 
-					/**	Sets the CSS presentation colours of the page
-					 *	@param	{classString}	string	The CSS class to set.
+					/**	Sets or gets the CSS class of the presentation
+					 *	@name		presentation
+					 *	@fieldOf	bb.css
 					 *	@public
-					 *	@since Version 0.1.0
+					 *	@since Version 0.3.0
 					 */
-					presentation: function (classString) {
+					get presentation () {
 						try {
-							bb.methods.css.presentation(classString);
+							return bb.members.css.presentation;
+						} catch (exception) {
+							bb.methods.log.error('Failed to get the CSS presentation colours: ' + exception);
+						}
+					},
+					set presentation (value) {
+						try {
+							bb.methods.css.presentation(value);
 						} catch (exception) {
 							bb.methods.log.error('Failed to set the CSS presentation colours: ' + exception);
 						}
