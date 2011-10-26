@@ -58,18 +58,26 @@ test('CSS', function () {
 	ok($(document.documentElement).hasClass('layout-qunit-test'), 'Correctly added the layout class');
 	bb.css.layout('qunit-retest');
 	ok(!$(document.documentElement).hasClass('layout-qunit-test') && $(document.documentElement).hasClass('layout-qunit-retest'), 'Correctly removed and added the layout class');
-	ok(localStorage.getItem('css.layout') === 'layout-qunit-retest', 'Correctly stored in layout local storage');
+	ok(localStorage.getItem('css.layout') === 'qunit-retest', 'Correctly stored in layout local storage');
 
 	// Test the presentation
 	bb.css.presentation('qunit-test');
 	ok($(document.documentElement).hasClass('presentation-qunit-test'), 'Correctly added the presentation class');
 	bb.css.presentation('qunit-retest');
 	ok(!$(document.documentElement).hasClass('presentation-qunit-test') && $(document.documentElement).hasClass('presentation-qunit-retest'), 'Correctly removed and added the presentation class');
-	ok(localStorage.getItem('css.presentation') === 'presentation-qunit-retest', 'Correctly stored presentation in local storage');
+	ok(localStorage.getItem('css.presentation') === 'qunit-retest', 'Correctly stored presentation in local storage');
 
 	// Restore the local storage
-	localStorage.setItem('css.presentation', presentation);
-	localStorage.setItem('css.layout', layout);
+	if (presentation) {
+		localStorage.setItem('css.presentation', presentation);
+	} else {
+		localStorage.clear('css.presentation');
+	}
+	if (layout) {
+		localStorage.setItem('css.layout', layout);
+	} else {
+		localStorage.clear('css.layout');
+	}
 });
 
 test('Key Binding', function () {

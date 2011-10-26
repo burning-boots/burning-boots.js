@@ -597,17 +597,17 @@
 							throw bb.exceptions.INVALID_PARAMS;
 						}
 						try {
+							var layout = bb.members.css.layout;
 							if (classString) {
-								classString = 'layout-' + classString;
-								if (bb.members.css.layout) {
-									$(document.documentElement).removeClass(bb.members.css.layout);
+								if (layout) {
+									$(document.documentElement).removeClass('layout-' + layout);
 								}
-							} else {
-								classString = bb.members.css.layout;
-							}
-							$(document.documentElement).addClass(classString);
-							if (classString) {
+								$(document.documentElement).addClass('layout-' + classString);
 								bb.members.css.layout = classString;
+							} else {
+								if (layout) {
+									$(document.documentElement).addClass('layout-' + layout);
+								}
 							}
 						} catch (exception) {
 							bb.methods.log.error('Failed to set the CSS layout: ' + exception);
@@ -628,20 +628,17 @@
 							throw bb.exceptions.INVALID_PARAMS;
 						}
 						try {
+							var presentation = bb.members.css.presentation;
 							if (classString) {
-								classString = 'presentation-' + classString;
-								if (bb.members.css.presentation) {
-									$(document.documentElement).removeClass(bb.members.css.presentation);
+								if (presentation) {
+									$(document.documentElement).removeClass('presentation-' + presentation);
 								}
-							} else {
-								classString = bb.members.css.presentation;
-							}
-							if (bb.members.css.presentation) {
-								$(document.documentElement).removeClass(bb.members.css.presentation);
-							}
-							$(document.documentElement).addClass(classString);
-							if (classString) {
+								$(document.documentElement).addClass('presentation-' + classString);
 								bb.members.css.presentation = classString;
+							} else {
+								if (presentation) {
+									$(document.documentElement).addClass('presentation-' + presentation);
+								}
 							}
 						} catch (exception) {
 							bb.methods.log.error('Failed to set the CSS presentation colours: ' + exception);
