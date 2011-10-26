@@ -681,22 +681,34 @@
 								var msg = 'BB: ' + bb.enums.logLevel[bb.members.logLevel] + ': ' + string;
 								switch (level) {
 								case bb.enums.logLevel.ERROR:
-									console && console.error && console.error(msg);
+									if (console && console.error) {
+										console.error(msg);
+									}
 									break;
 								case bb.enums.logLevel.WARN:
-									console && console.warn && console.warn(msg);
+									if (console && console.warn) {
+										console.warn(msg);
+									}
 									break;
 								case bb.enums.logLevel.INFO:
-									console && console.info && console.info(msg);
+									if (console && console.info) {
+										console.info(msg);
+									}
 									break;
 								case bb.enums.logLevel.DEBUG:
-									console && console.debug && console.debug(msg);
+									if (console && console.debug) {
+										console.debug(msg);
+									}
 									break;
 								case bb.enums.logLevel.VERBOSE:
-									console && console.log && console.log(msg);
+									if (console && console.log) {
+										console.log(msg);
+									}
 									break;
 								default:
-									console && console.log && console.log(msg);
+									if (console && console.log) {
+										console.log(msg);
+									}
 									break;
 								}
 							}

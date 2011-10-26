@@ -58,14 +58,14 @@ test('CSS', function () {
 	ok($(document.documentElement).hasClass('layout-qunit-test'), 'Correctly added the layout class');
 	bb.css.layout('qunit-retest');
 	ok(!$(document.documentElement).hasClass('layout-qunit-test') && $(document.documentElement).hasClass('layout-qunit-retest'), 'Correctly removed and added the layout class');
-	ok(localStorage.getItem('css.layout') === 'layout-qunit-retest','Correctly stored in layout local storage');
+	ok(localStorage.getItem('css.layout') === 'layout-qunit-retest', 'Correctly stored in layout local storage');
 
 	// Test the presentation
 	bb.css.presentation('qunit-test');
 	ok($(document.documentElement).hasClass('presentation-qunit-test'), 'Correctly added the presentation class');
 	bb.css.presentation('qunit-retest');
 	ok(!$(document.documentElement).hasClass('presentation-qunit-test') && $(document.documentElement).hasClass('presentation-qunit-retest'), 'Correctly removed and added the presentation class');
-	ok(localStorage.getItem('css.presentation') === 'presentation-qunit-retest','Correctly stored presentation in local storage');
+	ok(localStorage.getItem('css.presentation') === 'presentation-qunit-retest', 'Correctly stored presentation in local storage');
 
 	// Restore the local storage
 	localStorage.setItem('css.presentation', presentation);
@@ -76,8 +76,8 @@ test('Key Binding', function () {
 	'use strict';
 	expect(6);
 
-	// Create a DOM element to attach some key presses to it.
-	var div = document.createElement('div');
+	var div = document.createElement('div'),
+		event	= $.Event('keydown');
 
 	// Add some key bindings
 	bb.keyBinding.add(document, 'CTRL+ALT+M', function () {ok(true, 'Document registered CTRL+ALT+M.'); });
@@ -87,7 +87,6 @@ test('Key Binding', function () {
 	bb.keyBinding.add(div, 'CTRL+ALT+Z', function () {ok(true, 'The div registered CTRL+ALT+Z.'); });
 
 	// Trigger the key presses
-	var event	= $.Event('keydown');
 	event.ctrlKey	= true;
 	event.altKey	= true;
 	event.which	= 77; // M
@@ -128,7 +127,8 @@ test('Logging', function () {
 	}
 
 	// Increase the logging level
-	var logLevel	= bb.log.level;
+	var logLevel	= bb.log.level,
+		event	= $.Event('keydown');
 	bb.log.resetLevel();
 	equal(logLevel, bb.log.level, 'Reset logging level');
 
@@ -160,7 +160,6 @@ test('Logging', function () {
 	 * CTRL+ALT+A	- Resets logging level
 	 * CTRL+ALT+S	- Clears the logging level
 	 */
-	var event	= $.Event('keydown');
 	event.ctrlKey	= true;
 	event.altKey	= true;
 	event.which	= 83; // S
