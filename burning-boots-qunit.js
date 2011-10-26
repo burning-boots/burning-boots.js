@@ -35,13 +35,14 @@
 	$
  */
 
-module('Burning Boots Library');
+module('Burning Boots Library' + (!!bb.version ? (' ' + bb.version.toString()) : ''));
 
 test('Environment', function () {
 	'use strict';
-	expect(2);
-	ok(!!window.$, "jQuery Library is present");
-	ok(!!window.bb, "Burning Boots Library is present");
+	expect(3);
+	ok(!!window.$, 'jQuery Library is present');
+	ok(!!window.bb, 'Burning Boots Library is present');
+	ok(!!bb.version, 'Burning Boots Library version ' + (!!bb.version ? bb.version.toString() : 'not found'));
 });
 
 test('CSS', function () {
@@ -69,11 +70,11 @@ test('Key Binding', function () {
 	var div = document.createElement('div');
 
 	// Add some key bindings
-	bb.keyBinding.add(document, 'CTRL+ALT+M', function () {ok(true, "Document registered CTRL+ALT+M."); });
-	bb.keyBinding.add(document, 'CTRL+ALT+M', function () {ok(true, "Document registered CTRL+ALT+M."); });
-	bb.keyBinding.add(document, 'CTRL+ALT+Z', function () {ok(true, "Document registered CTRL+ALT+Z."); });
-	bb.keyBinding.add(div, 'CTRL+ALT+P', function () {ok(true, "The div registered CTRL+ALT+P."); });
-	bb.keyBinding.add(div, 'CTRL+ALT+Z', function () {ok(true, "The div registered CTRL+ALT+Z."); });
+	bb.keyBinding.add(document, 'CTRL+ALT+M', function () {ok(true, 'Document registered CTRL+ALT+M.'); });
+	bb.keyBinding.add(document, 'CTRL+ALT+M', function () {ok(true, 'Document registered CTRL+ALT+M.'); });
+	bb.keyBinding.add(document, 'CTRL+ALT+Z', function () {ok(true, 'Document registered CTRL+ALT+Z.'); });
+	bb.keyBinding.add(div, 'CTRL+ALT+P', function () {ok(true, 'The div registered CTRL+ALT+P.'); });
+	bb.keyBinding.add(div, 'CTRL+ALT+Z', function () {ok(true, 'The div registered CTRL+ALT+Z.'); });
 
 	// Trigger the key presses
 	var event	= $.Event('keydown');
