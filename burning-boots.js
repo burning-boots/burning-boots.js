@@ -7,11 +7,8 @@
  */
 
 /*jslint
-	devel:		true,
 	browser:	true,
 	es5:		true,
-	vars:		true,
-	plusplus:	true,
 	maxerr:		50,
 	indent:		4,
  */
@@ -20,12 +17,13 @@
 	'use strict';
 
 	// Local copies of the window objects for speed
-	var document	= window.document;
-//	var navigator	= window.navigator;
-//	var location	= window.location;
-	var parent		= window.parent;
-	var console		= window.console;
-	var $			= window.$;
+	var document	= window.document,
+/*		navigator	= window.navigator,*/
+/*		location	= window.location,*/
+		parent		= window.parent,
+		console		= window.console,
+		$			= window.$,
+		bb			= {};
 
 	// Check the needed dependencies
 	if ((window === undefined) || (window.$ === undefined)) {
@@ -46,12 +44,6 @@
 		window.bb = parent.bb;
 		return;
 	}
-
-	/**	A local private copy of our burning boots namespace.
-	 *	@private
-	 *	@since Version 0.1.0
-	 */
-	var bb = {};
 
 	/**	Exceptions that can be used throughout the library.
 	 *	<br/><br/>
@@ -286,37 +278,6 @@
 			 */
 			logLevel: bb.enums.logLevel.WARN,
 
-			/**	The current site we are on
-			 *	@name		level
-			 *	@fieldOf	bb.log
-			 *	@public
-			 *	@since Version 0.2.0
-			 */
-			get site() {
-				try {
-					/*	Get the bit of the URL between the // and first / then split
-					 *	it on the .'s
-					 */
-					var array			= document.URL.match(/\/\/[^/]+\//)[0].match(/[^/]+/)[0].split('.');
-					var i				= 0;
-					var returnString	= '';
-
-					// Assume(!) that the longest split is the site name.  amazon for www.amazon.com
-					for (i = 0; i < array.length; i++) {
-						if (array[i].length > returnString.length) {
-							returnString = array[i];
-						}
-					}
-					return returnString;
-				} catch (exception) {
-					return 'generic';
-				}
-			},
-			set site(value) {
-				var typeError = new TypeError('Cannot set bb.members.site (' + value.toString + ')');
-				throw typeError;
-			},
-
 			/**	The dynamic CSS of the page
 			 *	@private
 			 *	@since Version 0.1.0
@@ -331,7 +292,7 @@
 					 */
 					get presentation() {
 						try {
-							return localStorage[bb.members.site + '.css.presentation'];
+							return localStorage.getItem('css.presentation');
 						} catch (exception) {
 							bb.methods.log.error('Failed to get CSS presentation from local storage.  Do you need to install a localStorage polyfill: ' + exception);
 						}
@@ -342,7 +303,7 @@
 							throw bb.exceptions.INVALID_PARAMS;
 						}
 						try {
-							return localStorage[bb.members.site + '.css.presentation'] = value;
+							return localStorage.setItem('css.presentation', value);
 						} catch (exception) {
 							bb.methods.log.error('Failed to set CSS layout in local storage.  Do you need to install a localStorage polyfill: ' + exception);
 						}
@@ -356,7 +317,7 @@
 					 */
 					get layout() {
 						try {
-							return localStorage[bb.members.site + '.css.layout'];
+							return localStorage.getItem('css.layout');
 						} catch (exception) {
 							bb.methods.log.error('Failed to get CSS layout from local storage.  o you need to install a localStorage polyfill: ' + exception);
 						}
@@ -367,7 +328,7 @@
 							throw bb.exceptions.INVALID_PARAMS;
 						}
 						try {
-							return localStorage[bb.members.site + '.css.layout'] = value;
+							return localStorage.setItem('css.layout', value);
 						} catch (exception) {
 							bb.methods.log.error('Failed to set CSS layout in local storage.  Do you need to install a localStorage polyfill: ' + exception);
 						}
@@ -470,8 +431,8 @@
 						}
 
 						try {
-							var keyCombo	= '';
-							var key			= event.keycode || event.which;
+							var keyCombo	= '',
+								key			= event.keycode || event.which;
 							if (bb.defines.keyMap[key]) {
 								keyCombo += event.ctrlKey  ? 'CTRL+'  : '';
 								keyCombo += event.altKey   ? 'ALT+'   : '';
@@ -505,9 +466,9 @@
 						}
 
 						try {
-							var	i = 0;
-							var	keyComboSplit = keyCombo.toUpperCase().split('+');
-							var	keyComboSorted = [];
+							var	i = 0,
+								keyComboSplit = keyCombo.toUpperCase().split('+'),
+								keyComboSorted = [];
 
 							// Reorder the keys
 							if ((i = keyComboSplit.indexOf('CTRL'))  >= 0) { keyComboSorted.push(keyComboSplit.splice(i, 1)); }
@@ -720,22 +681,22 @@
 								var msg = 'BB: ' + bb.enums.logLevel[bb.members.logLevel] + ': ' + string;
 								switch (level) {
 								case bb.enums.logLevel.ERROR:
-									console.error(msg);
+									console && console.error && console.error(msg);
 									break;
 								case bb.enums.logLevel.WARN:
-									console.warn(msg);
+									console && console.warn && console.warn(msg);
 									break;
 								case bb.enums.logLevel.INFO:
-									console.info(msg);
+									console && console.info && console.info(msg);
 									break;
 								case bb.enums.logLevel.DEBUG:
-									console.debug(msg);
+									console && console.debug && console.debug(msg);
 									break;
 								case bb.enums.logLevel.VERBOSE:
-									console.log(msg);
+									console && console.log && console.log(msg);
 									break;
 								default:
-									console.log(msg);
+									console && console.log && console.log(msg);
 									break;
 								}
 							}
@@ -814,7 +775,7 @@
 					increaseLevel: function () {
 						try {
 							if (bb.members.logLevel < (bb.enums.logLevel.NUM - 1)) {
-								bb.members.logLevel++;
+								bb.members.logLevel += 1;
 							}
 							bb.methods.log.printLevel();
 						} catch (exception) {
@@ -832,7 +793,7 @@
 					decreaseLevel: function () {
 						try {
 							if (bb.members.logLevel > bb.enums.logLevel.NONE) {
-								bb.members.logLevel--;
+								bb.members.logLevel -= 1;
 							}
 							bb.methods.log.printLevel();
 						} catch (exception) {
@@ -891,7 +852,7 @@
 			 *	@public
 			 *	@since Version 0.1.0
 			 */
-			version: [0,3,0],
+			version: [0, 3, 0],
 
 			/**	The Burning Boots key bindings provides methods
 			 *	to bind key combinations to elements on a page.
@@ -1109,8 +1070,8 @@
 				}
 		};
 
-		// Override the version toString method.
-		window.bb.version.__proto__.toString = function() {
-			return this.join('.');
-		};
+	// Override the version toString method.
+	window.bb.version.toString = function () {
+		return this.join('.');
+	};
 }(window));

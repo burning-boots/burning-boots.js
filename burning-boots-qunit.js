@@ -10,7 +10,7 @@
 
 /*jslint
 	browser:	true,
-	vars:		true,
+	es5:		true,
 	maxerr:		50,
 	indent:		4,
  */
@@ -47,19 +47,29 @@ test('Environment', function () {
 
 test('CSS', function () {
 	'use strict';
-	expect(4);
+	expect(6);
+
+	// Cache the local storage
+	var presentation	= localStorage.getItem('css.presentation'),
+		layout			= localStorage.getItem('css.layout');
 
 	// Test the layout
 	bb.css.layout('qunit-test');
 	ok($(document.documentElement).hasClass('layout-qunit-test'), 'Correctly added the layout class');
 	bb.css.layout('qunit-retest');
 	ok(!$(document.documentElement).hasClass('layout-qunit-test') && $(document.documentElement).hasClass('layout-qunit-retest'), 'Correctly removed and added the layout class');
+	ok(localStorage.getItem('css.layout') === 'layout-qunit-retest','Correctly stored in layout local storage');
 
 	// Test the presentation
 	bb.css.presentation('qunit-test');
 	ok($(document.documentElement).hasClass('presentation-qunit-test'), 'Correctly added the presentation class');
 	bb.css.presentation('qunit-retest');
 	ok(!$(document.documentElement).hasClass('presentation-qunit-test') && $(document.documentElement).hasClass('presentation-qunit-retest'), 'Correctly removed and added the presentation class');
+	ok(localStorage.getItem('css.presentation') === 'presentation-qunit-retest','Correctly stored presentation in local storage');
+
+	// Restore the local storage
+	localStorage.setItem('css.presentation', presentation);
+	localStorage.setItem('css.layout', layout);
 });
 
 test('Key Binding', function () {
