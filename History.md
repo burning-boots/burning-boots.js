@@ -1,16 +1,22 @@
 
+0.3.0 / 2011-10-28
+==================
+
+  * Updated the build submodule
+  * Added CSS field API
+  * Changed storage of CSS classes
+  * JS linted
+  * Changes to the JS lint SCA settings to be more strict, better CSS unit tests and got rid of the site prefix for local storage as local storage is for each domain anyway
+  * Added QUnit test for library version API
+  * Updated the release process
+  * Made the version string be found automatically
+  * Updated version to 0.3.0 and added the new build changes
+
 v0.2.1 / 2011-10-23 
 ==================
 
   * Added new build changes and fixed up the bb.css.presentation
   * Updated version to 0.3.0
-  * 'Version 0.2.0'
-  * Updated build and cleaned up History.md
-  * Added a site key for cross-site local storage
-  * Updated the build
-  * Added the Javascript build process
-  * Cleaned up History.md and README.md
-  * Updated version to 0.2.0
 
 v0.2.0 / 2011-10-23 
 ==================
